@@ -79,7 +79,7 @@ public interface BeneficiarioRepository extends EntityRepository<Beneficiario, L
      *
      * @return
      */
-    @Query("SELECT b FROM Beneficiario b WHERE b.status = 'ATIVADO'")
+    @Query("SELECT b FROM Beneficiario b WHERE b.status = 'ATIVADO' ORDER BY b.nome")
     List<Beneficiario> findBeneficiarioAtivado();
 
     /**

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="declaracao_irpf" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="68453fa7-1ca7-46b3-841d-83389403feda">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="307"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="681"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AEE"/>
+	<parameter name="p_beneficiario_id" class="java.lang.Long">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="p_ano" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT public.fatura.vencimento,
+	public.beneficiario.nome,
+	public.fatura.valor_plano,
+	public.beneficiario.cpf
+FROM public.fatura
+	INNER JOIN public.plano ON 
+	 public.fatura.plano = public.plano.id 
+	INNER JOIN public.beneficiario ON 
+	 public.plano.beneficiario = public.beneficiario.id 
+WHERE 
+	 public.beneficiario.id = $P{p_beneficiario_id}
+AND
+	extract(year from public.fatura.vencimento) = $P{p_ano}	 
+ORDER BY
+	public.fatura.vencimento]]>
+	</queryString>
+	<field name="vencimento" class="java.sql.Date"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="valor_plano" class="java.lang.Double"/>
+	<field name="cpf" class="java.lang.String"/>
+	<variable name="valor_plano1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_plano}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="42" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="42" uuid="1b68ef11-17f4-4e7e-a173-002cd22758f8"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Associação dos Empregados da Embrapa. Endereço: BR 174 Km 08 s/n Distrito Industrial, Boa Vista - RR CEP: 69301-970 Telefone: (95) 4009-7100 (PABX). Email: diretoria@aeeroraima.com.br]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="69" width="100" height="30" uuid="0133c04b-3127-4f78-bb66-c9f197e31d57"/>
+				<textElement verticalAlignment="Top">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="69" width="200" height="30" uuid="712d73c5-ad7f-42cf-bc36-d7d01e3a7f03"/>
+				<textElement verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="39" width="100" height="30" uuid="2f7156d5-aac2-4199-aaf9-0cc23a3b651c"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Titular:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="100" y="39" width="445" height="29" uuid="b51b78ff-bcdf-4662-a84e-90259031aebd"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="5ce7756b-d05d-44c5-bbba-33f20d9b7046"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EXTRATO PARA IMPOSTO DE RENDA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<rectangle radius="0">
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="33" uuid="14d62b26-2579-4fb4-9810-089e08d6dad9"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="410" y="1" width="130" height="30" uuid="9dd40d74-cfc0-4302-8bf3-da5044cb3ac6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="2" width="100" height="30" uuid="5979a224-def1-4091-b0d7-6262d6f71d07"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Mês]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<textField pattern="¤ #,##0.##;¤-#,##0.##">
+				<reportElement x="410" y="3" width="130" height="30" uuid="506f07d6-bf06-49b4-864a-f90eff44b8be"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor_plano}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMM">
+				<reportElement x="4" y="3" width="120" height="30" uuid="79b5fd09-9413-4797-95fd-bc985c43d9ee"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="5" width="100" height="30" uuid="aba46f98-12da-4d31-8abc-0c8ac955c0e4"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<textField pattern="¤ #,##0.##;¤-#,##0.##">
+				<reportElement x="410" y="0" width="130" height="30" uuid="49212a70-e8ea-42d0-a27b-f0a67beae354"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_plano1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="105" splitType="Stretch">
+			<textField pattern="d &apos;de&apos; MMMM &apos;de&apos; yyyy">
+				<reportElement x="0" y="0" width="280" height="30" uuid="d3738fc4-0052-4cf9-9e01-c2d0930b23d1"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="24" width="555" height="50" uuid="dec07eb2-a9e6-4e91-9e42-86c513a33bbd"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[As informações constantes do presente comprovante são de responsabilidade da Associação dos Empregados da Embrapa, devendo o beneficiário titular utilizá-las para fins de imposto de renda, junto à Receita Federal do Brasil.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="75" width="216" height="30" uuid="9aa1c50b-4543-472d-88bc-018aa01bface"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Liliane Barbosa dos Santos Gedelha Presidente]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

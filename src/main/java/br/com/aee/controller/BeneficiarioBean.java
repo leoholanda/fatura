@@ -2,7 +2,6 @@ package br.com.aee.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -19,12 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 import org.primefaces.event.SelectEvent;
-
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.WebResource;
 
 import br.com.aee.model.Beneficiario;
 import br.com.aee.model.Convenio;
@@ -98,7 +91,7 @@ public class BeneficiarioBean implements Serializable {
 
 	private MesFatura mesFatura;
 
-	private List<Beneficiario> listaBeneficiarios = new ArrayList<Beneficiario>();
+	private List<Beneficiario> listaBeneficiarios;
 
 	private List<Plano> listaDePlanosParaRemover;
 
@@ -117,32 +110,9 @@ public class BeneficiarioBean implements Serializable {
 		mesFatura = new MesFatura();
 		listaPlanosAtivos = new ArrayList<>();
 
-		listaBeneficiarios = repository.findAllOrderByNomeAsc();
+		listaBeneficiarios = repository.findBeneficiarioAtivado();
 		listaDePlanosParaRemover = new ArrayList<>();
 		dependenteBean.excluirDependente();
-
-//		this.getListaBeneficiariosComRest();
-	}
-
-	/**
-	 * Metodo para teste utilizando REST
-	 */
-	public List<Beneficiario> getListaBeneficiariosComRest() {
-		try {
-			Client client = Client.create();
-			WebResource wr = client.resource("http://www.mocky.io/v2/5bf0d2382f0000c1187a0d01");
-			String stringJson = wr.get(String.class);
-
-			Gson gson = new Gson();
-			Type collectionType = new TypeToken<List<Beneficiario>>() {
-			}.getType();
-			List<Beneficiario> lista = gson.fromJson(stringJson, collectionType);
-
-			return lista;
-
-		} catch (ClientHandlerException e) {
-			return null;
-		}
 	}
 
 	// Actions
@@ -453,8 +423,12 @@ public class BeneficiarioBean implements Serializable {
 	 * Pesquisa beneficiario com 3 parametros CPF, Matricula e Nome
 	 */
 	public void pesquisar() {
-		listaBeneficiarios = repository.findByCpfOrMatriculaOrNomeLikeOrderByNomeAsc(searchValue, searchValue,
-				"%" + searchValue + "%");
+		if(searchValue.isEmpty()) {
+			listaBeneficiarios = repository.findBeneficiarioAtivado();
+		}else {
+			listaBeneficiarios = repository.findByCpfOrMatriculaOrNomeLikeOrderByNomeAsc(searchValue, searchValue,
+					"%" + searchValue + "%");
+		}
 
 		if (listaBeneficiarios.isEmpty()) {
 			JsfUtil.error("Nenhum registro encontrado");
@@ -598,7 +572,7 @@ public class BeneficiarioBean implements Serializable {
 	 * Checa faixa etaria de todos os beneficiario
 	 */
 	public void checaFaixaEtariaDosBeneficiarios() {
-		if (isMudancaDeFaixaEtaria() && diaDoMes() >= 20 && diaDoMes() <= 31) {
+		if (isMudancaDeFaixaEtaria() && diaDoMes() >= 06 && diaDoMes() <= 31) {
 
 			// Carrega lista dos beneficiarios
 			this.getListaBeneficiarios().forEach(beneficiario -> {

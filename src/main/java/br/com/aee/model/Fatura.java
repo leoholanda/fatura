@@ -174,20 +174,6 @@ public class Fatura implements Serializable {
 		}
 	}
 
-	/**
-	 * Usado provisoriamente para o ajuste de 10% em Março de 2018
-	 * 
-	 * @return
-	 */
-	public Double getAjuste() {
-		return valorPlanoDeSaude * 0.10;
-	}
-
-	public String getConverterAjuste() {
-		Locale ptBR = new Locale("pt", "BR");
-		return NumberFormat.getCurrencyInstance(ptBR).format(this.getAjuste());
-	}
-
 	public String getConverterValorPlano() {
 		Locale ptBR = new Locale("pt", "BR");
 		return NumberFormat.getCurrencyInstance(ptBR).format(valorPlanoDeSaude);
@@ -377,7 +363,7 @@ public class Fatura implements Serializable {
 	public boolean isDebitoFaturaAnterior() {
 		boolean debito = false;
 		if (residuoDescontado != null) {
-			DecimalFormat formato = new DecimalFormat("#,##0.00");
+			new DecimalFormat("#,##0.00");
 //			residuoDescontado = Double.valueOf(formato.format(residuoDescontado));
 
 			if (residuoDescontado > 0.00) {
@@ -409,6 +395,51 @@ public class Fatura implements Serializable {
 			resultado = residuoDescontado < 0.00;
 		}
 		return resultado;
+	}
+	
+	public String getDeParaStatus() {
+		switch (status) {
+		case PAGO:
+			return "PAGO";
+		case ATRASADO:
+			return getDiasAtrasados() + "( "+ getFormatacaoTextoDiaDeAtraso() + ")";
+		case FECHADO:
+			return "FECHADO";
+		case PARCELADO:
+			return "PARCELADO";
+		default:
+			return "PENDENTE";
+		}
+	}
+	
+	public String getExibeStatusDaFatura() {
+		switch (status) {
+		case PAGO:
+			return "Pago";
+		case ATRASADO:
+			return "Atrasado";
+		case FECHADO:
+			return "Fechado";
+		case PARCELADO:
+			return "Parcelado";
+		default:
+			return "Pendente";
+		}
+	}
+	
+	public boolean isRenderizaStatusDaFatura() {
+		switch (status) {
+		case PAGO:
+			return Status.PAGO.equals(this.status);
+		case ATRASADO:
+			return Status.ATRASADO.equals(this.status);
+		case FECHADO:
+			return Status.FECHADO.equals(this.status);
+		case PARCELADO:
+			return Status.PARCELADO.equals(this.status);
+		default:
+			return Status.PENDENTE.equals(this.status);
+		}
 	}
 
 	// Getters and Setters
@@ -566,6 +597,10 @@ public class Fatura implements Serializable {
 	
 	public List<ItemDaFatura> getItemDaFatura() {
 		return itemDaFatura;
+	}
+	
+	public void setItemDaFatura(List<ItemDaFatura> itemDaFatura) {
+		this.itemDaFatura = itemDaFatura;
 	}
 
 	@Override

@@ -76,25 +76,7 @@
 
 					<div class="ui-g-12 ui-sm-12 ui-lg-6">
 						<div class="card">
-							<h1 class="SoftBlue"
-								jsf:rendered="#{beneficiarioMB.beneficiario.masculino}">
-								<span class="fa fa-male"
-									jsf:rendered="#{!beneficiarioMB.beneficiario.desativado}" />
-								<p:spacer width="10"
-									rendered="#{!beneficiarioMB.beneficiario.desativado}" />
-								<span jsf:rendered="#{!beneficiarioMB.beneficiario.desativado}">#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
-
-								<h:outputLabel value="Associado Desativado "
-									rendered="#{beneficiarioMB.beneficiario.desativado}"
-									styleClass="Red" style="margin-left: 10px;" />
-								<span class="fa fa-times-circle Red"
-									jsf:rendered="#{beneficiarioMB.beneficiario.desativado}" />
-							</h1>
-
-							<h1 class="Pink"
-								jsf:rendered="#{beneficiarioMB.beneficiario.feminino}">
-								<span class="fa fa-female"
-									jsf:rendered="#{!beneficiarioMB.beneficiario.desativado}" />
+							<h1 class="BoldGray">
 								<p:spacer width="10"
 									rendered="#{!beneficiarioMB.beneficiario.desativado}" />
 								<span jsf:rendered="#{!beneficiarioMB.beneficiario.desativado}">#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
@@ -259,18 +241,13 @@
 									<h:outputText value="#{dependente.tipoDependencia.descricao}: "
 										style="font-size: 20px; margin-left: 10px;" styleClass="Green" />
 									<br />
-									<h:outputText styleClass="Blue"
+									<h:outputText styleClass="BoldGray"
 										value="#{dependente.nomeComIniciaisMaiuscula}"
-										rendered="#{dependente.masculino}"
 										style="font-size: 20px; margin-left: 10px;" />
-									<h:outputText styleClass="Pink"
-										value="#{dependente.nomeComIniciaisMaiuscula}"
-										rendered="#{dependente.feminino}"
-										style="font-size: 20px; margin-left: 10px;" />
-									<span class="fa fa-male Blue"
+									<span class="fa fa-male BoldGray"
 										jsf:rendered="#{dependente.masculino}"
 										style="font-size: 20px; margin-left: 10px;" />
-									<span class="fa fa-female Pink"
+									<span class="fa fa-female BoldGray"
 										jsf:rendered="#{dependente.feminino}"
 										style="font-size: 20px; margin-left: 10px;" />
 

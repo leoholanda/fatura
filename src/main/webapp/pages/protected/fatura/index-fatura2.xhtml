@@ -70,13 +70,14 @@
 					</div>
 
 					<div class="card">
-						<p:link href="../beneficiario/index-beneficiario.xhtml?id=#{faturaMB.fatura.plano.beneficiario.id}" title="Redireciona para cadastro do associado">
 							<h1 class="BoldGray">
-								#{faturaMB.fatura.plano.beneficiario.nomeComIniciaisMaiuscula}
-								<h:outputLabel styleClass="Fright Gray"
+								<p:link href="../beneficiario/index-beneficiario.xhtml?id=#{faturaMB.fatura.plano.beneficiario.id}" title="Redireciona para cadastro do associado">
+											<p:outputLabel styleClass="BoldGray Fs25" style="cursor: pointer" 
+													value="#{faturaMB.fatura.plano.beneficiario.nomeComIniciaisMaiuscula}" />
+								</p:link>
+								<h:outputLabel styleClass="Fright"
 									value="#{faturaMB.fatura.mesDaFatura}" />
 							</h1>
-						</p:link>	
 
 						<p:panelGrid columns="4" layout="grid" id="beneficiario"
 							styleClass="ui-panelgrid-blank"
@@ -131,33 +132,13 @@
 
 						</p:panelGrid>
 
-						<div class="MarTop20 MarBot10">
+						<div class="MarTop20 MarBot20">
 							<div style="text-align: left;" class="Fleft">
-								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Fs10"
-									style="cursor: text; border-color: #43A047;  background-color: #43A047;"
-									update="@this" process="@this"
-									rendered="#{faturaMB.fatura.pago}" />
-								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Fs10"
-									style="cursor: text; border-color: #0084b4;  background-color: #0084b4;"
-									update="@this" process="@this"
-									rendered="#{faturaMB.fatura.parcelado}" />
-								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Fs10"
-									style="cursor: text; border-color: #0084b4;  background-color: #0084b4;"
-									update="@this" process="@this"
-									rendered="#{faturaMB.fatura.fechado}" />
-
-								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Pendente Fs10"
-									update="@this" process="@this"
-									rendered="#{faturaMB.fatura.pendente}" />
-								<p:commandButton
-									value="#{faturaMB.fatura.diasAtrasados} (#{faturaMB.fatura.formatacaoTextoDiaDeAtraso})"
-									styleClass="red-button Fs10"
-									style="cursor: text; border-color: #E53935;  background-color: #E53935;"
-									update="@this" process="@this"
-									rendered="#{faturaMB.fatura.atrasado}" />
+								<p:commandButton value="#{faturaMB.fatura.deParaStatus}" styleClass="Fs14 #{faturaMB.fatura.exibeStatusDaFatura}"
+									update="@this" process="@this" />
 
 								<p:outputLabel value="#{faturaMB.fatura.dataPagamento.time}"
-									styleClass="Gray Fs14" style="margin-left: 10px;"
+									styleClass="Green Fs14" style="margin-left: 10px;"
 									rendered="#{faturaMB.fatura.pago || faturaMB.fatura.parcelado || faturaMB.fatura.fechado}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</p:outputLabel>
@@ -166,9 +147,9 @@
 							<div style="text-align: right;">
 								<p:commandLink update="@form" style="cursor: pointer;">
 									<p:outputLabel value="Vencimento: "
-										styleClass="Red Fs14 MarTop20" />
+										styleClass="Red Fs16 MarTop20" />
 									<p:outputLabel value="#{faturaMB.fatura.vencimento}"
-										styleClass="Red Fs14">
+										styleClass="Red Fs16">
 										<f:convertDateTime pattern="dd/MM/yyyy" />
 									</p:outputLabel>
 								</p:commandLink>
@@ -227,15 +208,15 @@
 
 
 						<p:panel header="Fatura Detalhada" style="height:100%">
-
+						
 							<ui:repeat
 								value="#{faturaMB.listaItemDaFaturaPlanoDeSaude}"
 								var="item">
 								<ul class="task-list">
-									<li><span class="task-name">#{item.nomeComIniciaisMaiuscula}</span>
+									<li><span class="task-name">#{item.identificacao}</span>
 
-										<p:commandButton value="#{item.converterValor}"
-											style="cursor: text; border-color: #2b81c6;  background-color: #2b81c6; width: 100px;"
+										<p:commandButton value="#{item.converterValor}" styleClass="FaturaDescricao"
+											style="width: 100px;" title="#{item.nomeComIniciaisMaiuscula}"
 											update="@this" process="@this" />
 									</li>
 								</ul>
@@ -245,8 +226,8 @@
 							<ul class="task-list" jsf:rendered="#{faturaMB.fatura.plano.beneficiario.temPlanoDeSaude}">
 								<li>
 									<span class="task-name">TOTAL PLANO DE SAÚDE</span> <p:commandButton
-										value="#{faturaMB.fatura.converterValorPlano}"
-										style="cursor: text; border-color: #2b81c6;  background-color: #2b81c6; width: 100px;"
+										value="#{faturaMB.fatura.converterValorPlano}" styleClass="FaturaDescricao"
+										style="width: 100px;"
 										update="@this" process="@this" />
 								</li>
 							</ul>
@@ -263,44 +244,44 @@
 											update="@this" process="@this" />
 									</li>
 								</ul>
-							</ui:repeat>
 							<br />
+							</ui:repeat>
 
 							<ul class="task-list">
 								<li
 									jsf:rendered="#{!faturaMB.fatura.plano.beneficiario.consignado}"><span
 									class="task-name">MENSALIDADE</span> <p:commandButton
-										value="#{faturaMB.fatura.converterMensalidade}"
-										style="cursor: text; border-color: #2b81c6;  background-color: #2b81c6; width: 100px;"
+										value="#{faturaMB.fatura.converterMensalidade}" styleClass="FaturaDescricao"
+										style="width: 100px;"
 										update="@this" process="@this" /></li>
 										
 								<li jsf:rendered="#{faturaMB.fatura.multaAplicada}"><span
 									class="task-name BoldGray">VALOR TOTAL GERADO</span> <p:commandButton
-										value="#{faturaMB.fatura.converterValorTotalGerado}"
-										style="cursor: text; border-color: #26C6DA; background-color: #26C6DA; width: 100px;"
-										update="@this" process="@this" /></li>
+										value="#{faturaMB.fatura.converterValorTotalGerado}" styleClass="ButtonTurquoise"
+										style="width: 100px;"
+										update="@none" process="@none" /></li>
 
 								<li jsf:rendered="#{faturaMB.fatura.temResiduoDaFaturaAnterior}">
 
 									<span
 									jsf:rendered="#{faturaMB.fatura.debitoFaturaAnterior}"
-									class="task-name FontBold Red">DÉBITO (FATURA ANTERIOR)</span>
+									class="task-name Red">DÉBITO PARA FATURA ANTERIOR</span>
 
 									<span
 									jsf:rendered="#{!faturaMB.fatura.debitoFaturaAnterior}"
-									class="task-name FontBold Blue">CRÉDITO (FATURA
-										ANTERIOR)</span> 
+									class="task-name Blue">CRÉDITO PARA FATURA
+										ANTERIOR</span> 
 										
 										<p:commandButton
 										value="#{faturaMB.fatura.converterResiduoDescontado}"
-										rendered="#{faturaMB.fatura.debitoFaturaAnterior}"
-										style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
+										rendered="#{faturaMB.fatura.debitoFaturaAnterior}" styleClass="Atrasado"
+										style="width: 100px;"
 										update="@this" process="@this" /> 
 										
 										<p:commandButton
-										value="#{faturaMB.fatura.converterResiduoDescontado}"
+										value="#{faturaMB.fatura.converterResiduoDescontado}" styleClass="Fechado"
 										rendered="#{!faturaMB.fatura.debitoFaturaAnterior}"
-										style="cursor: text; border-color: #03A9F4; background-color: #03A9F4; width: 100px;"
+										style="width: 100px;"
 										update="@this" process="@this" />
 								</li>
 							</ul>
@@ -308,52 +289,56 @@
 
 							<ul class="task-list"
 								jsf:rendered="#{faturaMB.fatura.multaAplicada}">
-								<li><span class="task-name">MULTA</span> <p:commandButton
+								<li><span class="task-name Pendente">MULTA</span> <p:commandButton styleClass="Pendente"
 										value="#{faturaMB.fatura.multaPorAtraso}"
-										style="cursor: text; border-color: #FB8C00;  background-color: #FB8C00; width: 100px;"
+										style="width: 100px;"
 										update="@this" process="@this" /></li>
 
-								<li><span class="task-name">JUROS</span> <p:commandButton
+								<li><span class="task-name Pendente">JUROS</span> <p:commandButton styleClass="Pendente"
 										value="#{faturaMB.fatura.jurosAoDia}"
-										style="cursor: text; border-color: #FB8C00;  background-color: #FB8C00; width: 100px;"
+										style="width: 100px;"
 										update="@this" process="@this" /></li>
 							</ul>
 							<br />
 
 							<ul class="task-list">
-								<li><span class="task-name FontBold LeadenGreen Fs16">TOTAL
+								<li><span class="task-name Fs16">TOTAL
 										À PAGAR</span> <p:commandButton
-										value="#{faturaMB.fatura.converterValorTotal}"
-										style="cursor: text; border-color: #26A69A; background-color: #26A69A; width: 100px;"
+										value="#{faturaMB.fatura.converterValorTotal}" styleClass="TotalPagar"
+										style="width: 100px;"
 										update="@this" process="@this" /></li>
 							</ul>
 
 							<ul class="task-list"
 								jsf:rendered="#{faturaMB.fatura.valorPago ne null}">
-								<li><span class="task-name FontBold Green Fs16">VALOR
+								<li><span class="task-name Fs16 Pago">VALOR
 										PAGO</span> <p:commandButton
-										value="#{faturaMB.fatura.converterValorPago}"
-										style="cursor: text; border-color: #43A047; background-color: #43A047; width: 100px;"
+										value="#{faturaMB.fatura.converterValorPago}" styleClass="Pago"
+										style="width: 100px;"
 										update="@this" process="@this" /></li>
 							</ul>
 							<br />
 
 							<ul class="task-list"
 								jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">
-								<li><span class="task-name FontBold Red Fs16"
-									jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">DÉBITO
-										(PRÓXIMA FATURA)</span> <span class="task-name FontBold Blue Fs16"
-									jsf:rendered="#{!faturaMB.fatura.residuoParaProximaFatura}">CRÉDITO
-										(PRÓXIMA FATURA)</span> 
-										<p:commandButton
+								<li><span class="task-name Red Fs16"
+									jsf:rendered="#{faturaMB.fatura.debitoDeResiduo}">DÉBITO
+										PARA PRÓXIMA FATURA</span> 
+										
+									<span class="task-name Blue Fs16"
+									jsf:rendered="#{!faturaMB.fatura.debitoDeResiduo}">CRÉDITO
+										PARA PRÓXIMA FATURA</span> 
+										
+										<p:commandButton styleClass="Fechado"
 										value="#{faturaMB.fatura.converterValorDoResiduo}"
-										rendered="#{faturaMB.fatura.residuoParaProximaFatura}"
-										style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
+										rendered="#{!faturaMB.fatura.debitoDeResiduo}"
+										style="width: 100px;"
 										update="@this" process="@this" /> 
-										<p:commandButton
+										
+										<p:commandButton styleClass="Atrasado"
 										value="#{faturaMB.fatura.converterValorDoResiduo}"
-										rendered="#{!faturaMB.fatura.residuoParaProximaFatura}"
-										style="cursor: text; border-color: #0288D1; background-color: #0288D1; width: 100px;"
+										rendered="#{faturaMB.fatura.debitoDeResiduo}"
+										style="width: 100px;"
 										update="@this" process="@this" /></li>
 							</ul>
 

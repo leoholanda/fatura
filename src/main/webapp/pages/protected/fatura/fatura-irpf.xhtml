@@ -43,7 +43,7 @@
                                         
                                     	<p:selectOneMenu id="ano"
                                                          value="#{geraRelatorioMB.searchAno}">
-<!--                                             <f:selectItem itemLabel="2017" itemValue="2017" /> -->
+                                            <f:selectItem itemLabel="Ano" noSelectionOption="true" />             
                                             <f:selectItem itemLabel="2018" itemValue="2018" />
                                             <f:selectItem itemLabel="2019" itemValue="2019" />
                                             <f:selectItem itemLabel="2020" itemValue="2020" />
@@ -73,7 +73,13 @@
                                 <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
                             </h:outputText>
                         </p:column>
-
+                        
+                        <p:column headerText="Nome">
+	                        <p:repeat var="item" value="#{fatura.itemDaFatura}">
+	                            <h:outputText value="#{item.identificacao}" />
+                        	</p:repeat>
+                        </p:column>
+                        
 						<p:columnGroup type="footer" rendered="#{not empty geraRelatorioMB.listaFaturaAnualDoBeneficiario}">
 			                <p:row>
 			                    <p:column footerText="Total: " style="text-align:left" styleClass="Blue"/>
@@ -83,44 +89,6 @@
 
                     </p:dataTable>
                     
-                    <div jsf:rendered="#{geraRelatorioMB.possuiDependente}">
-                    	
-                    	<p:repeat var="dependente" value="#{geraRelatorioMB.listaDeDependenteDoBeneficiario}">
-                    		<h2 class="BoldGray MarTop20">#{dependente.nomeComIniciaisMaiuscula}</h2>
-                    		
-                    		<p:dataTable id="table" styleClass="MarTop10"
-                                 value="#{geraRelatorioMB.listaFaturaAnualDoBeneficiario}" var="fatura"
-                                 reflow="true" emptyMessage="Nenhum registro encontrado">
-
-		                        <p:column headerText="Mês" width="60">
-		                            <h:outputText value="#{fatura.mesDaFatura}">
-		                                <f:convertDateTime pattern="dd/MM/yyyy" />
-		                            </h:outputText>
-		                        </p:column>
-		
-		                        <p:column headerText="Valor" width="75">
-		                            <h:outputText value="#{dependente.faixaEtaria.valorApartamento}" rendered="#{fatura.plano.beneficiario.apartamento}">
-		                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
-		                            </h:outputText>
-		                            
-		                            <h:outputText value="#{dependente.faixaEtaria.valorEnfermaria}" rendered="#{fatura.plano.beneficiario.enfermaria}">
-		                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
-		                            </h:outputText>
-		                        </p:column>
-		                        
-		                        <p:columnGroup type="footer">
-			                		<p:row>
-					                    <p:column footerText="Total: " style="text-align:left" styleClass="Blue"/>
-					                    <p:column footerText="R$ #{geraRelatorioMB.getSomaValorPlanoDeSaudeDependente(dependente)}" style="text-align:left;" styleClass="Blue"/>
-					                </p:row>
-			            		</p:columnGroup>
-		
-		                    </p:dataTable>
-                    
-                    	</p:repeat>
-	                    
-                    </div>             
-
                 </h:form>
             </div>
         </div>

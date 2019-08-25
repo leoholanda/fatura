@@ -10,11 +10,6 @@
 
 
 	<p:column headerText="Associado" width="255">
-		<i class="fa fa-male Blue"
-			jsf:rendered="#{fatura.plano.beneficiario.masculino}" />
-		<i class="fa fa-female Pink"
-			jsf:rendered="#{fatura.plano.beneficiario.feminino}" />
-		<p:spacer width="10" />
 		<p:link outcome="/pages/protected/beneficiario/index-beneficiario"
 			value="#{fatura.plano.beneficiario.nomeComIniciaisMaiuscula}" title="Detalha Associado">
 			<f:param name="id" value="#{fatura.plano.beneficiario.id}" />

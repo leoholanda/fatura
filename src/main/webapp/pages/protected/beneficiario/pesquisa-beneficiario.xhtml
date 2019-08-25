@@ -26,7 +26,6 @@
                 <h:form id="form">
                     <p:messages id="msg" autoUpdate="true" />
                     <p:focus for="beneficiario-table:searchValue"/>
-                    <!--<p:tooltip id="tooltip-search" for="beneficiario-table:searchValue" showEvent="focus" hideEvent="blur" position="left" />-->
 
                     <p:dataTable id="beneficiario-table" styleClass="MarTop10"
                                  value="#{beneficiarioMB.listaBeneficiarios}" var="beneficiario"
@@ -47,11 +46,6 @@
                         </f:facet>
                         
                         <p:column headerText="Nome" width="350">
-                            <i class="fa fa-male Blue"
-                               jsf:rendered="#{beneficiario.masculino}" />
-                            <i class="fa fa-female Pink"
-                               jsf:rendered="#{beneficiario.feminino}" />
-                            <p:spacer width="10" />
                             <h:outputText value="#{beneficiario.nomeComIniciaisMaiuscula}" />
                             <i class="fa fa-heartbeat LeadenGreen Fright Fs15" title="Tem Plano de Saúde"
                                jsf:rendered="#{beneficiario.temPlanoDeSaude and !beneficiario.desativado}" />

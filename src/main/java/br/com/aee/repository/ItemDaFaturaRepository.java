@@ -20,5 +20,17 @@ public interface ItemDaFaturaRepository extends EntityRepository<ItemDaFatura, L
 	
 	@Query("SELECT i FROM ItemDaFatura i WHERE i.fatura = ?1 AND i.ordem != 1")
 	List<ItemDaFatura> findAllExcetoPlanoDeSaude(Fatura fatura);
+	
+	/**
+     * Lista os itens da fatura do beneficiario do ano
+     *
+     * @param beneficiario
+     * @param ano
+     * @return
+     */
+    @Query("SELECT i FROM ItemDaFatura i WHERE item.fatura.plano.beneficiario.id = ?1 "
+            + "AND EXTRACT(YEAR FROM i.fatura.vencimento) = ?2 "
+            + "ORDER BY i.fatura.vencimento ASC")
+    List<Fatura> findByItemDaFaturaBeneficiarioAno(Long idBeneficiario, Integer ano);
 
 }
