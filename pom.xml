@@ -5,7 +5,7 @@
 
 	<groupId>com.holanda</groupId>
 	<artifactId>AEE</artifactId>
-	<version>1.11.0</version>
+	<version>1.12.0</version>
 	<packaging>war</packaging>
 
 	<name>AEE</name>
@@ -300,14 +300,14 @@
 
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>prime-repo</id>
-			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
+<!-- 	<repositories> -->
+<!-- 		<repository> -->
+<!-- 			<id>prime-repo</id> -->
+<!-- 			<name>PrimeFaces Maven Repository</name> -->
+<!-- 			<url>http://repository.primefaces.org</url> -->
+<!-- 			<layout>default</layout> -->
+<!-- 		</repository> -->
+<!-- 	</repositories> -->
 
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>

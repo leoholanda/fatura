@@ -74,12 +74,6 @@
                             </h:outputText>
                         </p:column>
                         
-                        <p:column headerText="Nome">
-	                        <p:repeat var="item" value="#{fatura.itemDaFatura}">
-	                            <h:outputText value="#{item.identificacao}" />
-                        	</p:repeat>
-                        </p:column>
-                        
 						<p:columnGroup type="footer" rendered="#{not empty geraRelatorioMB.listaFaturaAnualDoBeneficiario}">
 			                <p:row>
 			                    <p:column footerText="Total: " style="text-align:left" styleClass="Blue"/>

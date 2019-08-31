@@ -134,7 +134,7 @@
 
 						<div class="MarTop20 MarBot20">
 							<div style="text-align: left;" class="Fleft">
-								<p:commandButton value="#{faturaMB.fatura.deParaStatus}" styleClass="Fs14 #{faturaMB.fatura.exibeStatusDaFatura}"
+								<p:commandButton value="#{faturaMB.fatura.deParaStatus}" styleClass="#{faturaMB.fatura.exibeStatusDaFatura} Fs14"
 									update="@this" process="@this" />
 
 								<p:outputLabel value="#{faturaMB.fatura.dataPagamento.time}"
@@ -223,7 +223,8 @@
 							</ui:repeat>
 							<br />
 							
-							<ul class="task-list" jsf:rendered="#{faturaMB.fatura.plano.beneficiario.temPlanoDeSaude}">
+							<ul class="task-list" jsf:rendered="#{faturaMB.fatura.plano.beneficiario.temPlanoDeSaude and 
+							not empty faturaMB.fatura.plano.beneficiario.dependentes}">
 								<li>
 									<span class="task-name">TOTAL PLANO DE SAÚDE</span> <p:commandButton
 										value="#{faturaMB.fatura.converterValorPlano}" styleClass="FaturaDescricao"
