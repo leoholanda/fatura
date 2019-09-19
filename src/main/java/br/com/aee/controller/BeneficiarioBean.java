@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.primefaces.event.SelectEvent;
 
+import br.com.aee.converter.StringExtended;
 import br.com.aee.model.Beneficiario;
 import br.com.aee.model.Convenio;
 import br.com.aee.model.Dependente;
@@ -378,24 +379,44 @@ public class BeneficiarioBean implements Serializable {
 	}
 
 	/**
-	 * Exporta para pdf declaracao IPFR
+	 * Exporta para pdf
 	 */
 	public void emitirDeclaracaoImpostoDeRendaPDF() {
-		if (beneficiario != null) {
-			Map<String, Object> parametros = new HashMap<>();
-			parametros.put("p_beneficiario_id", beneficiario.getId());
+		Map<String, Object> parametros = new HashMap<>();
+		parametros.put("p_beneficiario_id", beneficiario.getId());
+		parametros.put("p_ano", 2019);
 
-			ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao_irpf.jasper", this.response,
-					parametros, "Declaração Imposto de Renda.pdf");
+		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao-irpf-titular.jasper", this.response,
+				parametros, "Declaração Imposto de Renda - " + beneficiario.getNome() + ".pdf");
 
-			Session session = manager.unwrap(Session.class);
-			session.doWork(executor);
+		Session session = manager.unwrap(Session.class);
+		session.doWork(executor);
 
-			if (executor.isRelatorioGerado()) {
-				facesContext.responseComplete();
-			} else {
-				JsfUtil.error("A execução do relatório não retornou dados");
-			}
+		if (executor.isRelatorioGerado()) {
+			facesContext.responseComplete();
+		} else {
+			JsfUtil.error("A execução do relatório não retornou dados");
+		}
+	}
+	
+	public void emitirDeclaracaoImpostoDeRendaDependentePDF(String nome, String cpf) {
+		System.out.println(">> " + nome);
+		Map<String, Object> parametros = new HashMap<>();
+		parametros.put("p_beneficiario_id", beneficiario.getId());
+		parametros.put("p_ano", 2019);
+		parametros.put("p_dependente", nome);
+		parametros.put("p_cpf", cpf);
+
+		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/dependente.jasper", this.response,
+				parametros, "Declaração Imposto de Renda - " + nome + ".pdf");
+
+		Session session = manager.unwrap(Session.class);
+		session.doWork(executor);
+
+		if (executor.isRelatorioGerado()) {
+			facesContext.responseComplete();
+		} else {
+			JsfUtil.error("A execução do relatório não retornou dados");
 		}
 	}
 

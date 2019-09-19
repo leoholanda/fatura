@@ -80,6 +80,11 @@
 								<p:spacer width="10"
 									rendered="#{!beneficiarioMB.beneficiario.desativado}" />
 								<span jsf:rendered="#{!beneficiarioMB.beneficiario.desativado}">#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
+								
+								<p:commandButton rendered="#{!beneficiarioMB.beneficiario.desativado}"
+								action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF}"
+								icon="fa fa-print" styleClass="Fright green-button" style="width: auto;"
+								title="Declaração IR Exercício 2019" ajax="false" />
 
 								<h:outputLabel value="Associado Desativado "
 									rendered="#{beneficiarioMB.beneficiario.desativado}"
@@ -250,6 +255,10 @@
 									<span class="fa fa-female BoldGray"
 										jsf:rendered="#{dependente.feminino}"
 										style="font-size: 20px; margin-left: 10px;" />
+									<p:commandButton
+										action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaDependentePDF(dependente.nome, dependente.cpf)}"
+										icon="fa fa-print" styleClass="Fright green-button" style="width: auto;"
+										title="Declaração IR Exercício 2019" ajax="false" />	
 
 									<p:panelGrid columns="2" layout="grid" id="dependente"
 										styleClass="ui-panelgrid-blank MarTop10"

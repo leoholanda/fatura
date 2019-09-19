@@ -63,6 +63,16 @@ public interface FaturaRepository extends EntityRepository<Fatura, Long> {
     List<Fatura> findByFaturaPendente();
     
     /**
+     * Lista as Faturas fechadas
+     *
+     * @return
+     */
+    @Query("SELECT f FROM Fatura f "
+    		+ "WHERE f.status = 'FECHADA' "
+    		+ "ORDER BY f.plano.beneficiario.nome, f.plano.convenio.nome")
+    List<Fatura> findByFaturaFechada();
+    
+    /**
      * Lista as Faturas pagas do mês atual
      *
      * @param mes
@@ -201,8 +211,16 @@ public interface FaturaRepository extends EntityRepository<Fatura, Long> {
      *
      * @return
      */
-    @Query("SELECT count(f) FROM Fatura f WHERE f.status = 'PENDENTE' OR f.status = 'FECHADO'")
+    @Query("SELECT count(f) FROM Fatura f WHERE f.status = 'PENDENTE'")
     Long countFaturaPendente();
+    
+    /**
+     * Conta Fatura fechada
+     *
+     * @return
+     */
+    @Query("SELECT count(f) FROM Fatura f WHERE f.status = 'FECHADO'")
+    Long countFaturaFechada();
 
     /**
      * Conta Fatura atrasada

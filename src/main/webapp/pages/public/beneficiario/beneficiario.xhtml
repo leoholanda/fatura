@@ -22,26 +22,13 @@
 				<div class="ui-g-12 ui-sm-12 ui-lg-6">
 
 					<div class="card">
-						<h1 class="BoldGray"
-							jsf:rendered="#{beneficiarioMB.beneficiario.masculino}">
-							<span>#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
-							
-							<p:commandButton
-								action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF()}"
-								icon="fa fa-print" styleClass="Fright" style="width: auto;"
-								title="Declaração IPRF" ajax="false"
-								rendered="false" />
-						</h1>
-
-						<h1 class="BoldGray"
-							jsf:rendered="#{beneficiarioMB.beneficiario.feminino}">
+						<h1 class="BoldGray">
 							<span jsf:rendered="#{!beneficiarioMB.beneficiario.desativado}">#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
 							
 							<p:commandButton
-								action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF()}"
+								action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF}"
 								icon="fa fa-print" styleClass="Fright" style="width: auto;"
-								title="Declaração IPRF" ajax="false"
-								rendered="false" />
+								title="Declaração IR 2019(Desabilitado)" ajax="false" disabled="true"/>
 						</h1>
 
 						<p:panel>

@@ -103,21 +103,21 @@
 				</div>
 			</div>
 			
-			<!-- Card count dependentes cadastrados -->
+			<!-- Card beneficiarios cadastrados -->
 			<div class="ui-g-12 ui-md-4">
-				<div class="card summary">
-					<span class="title">Dependentes</span> <span class="detail">
-						<i class="fa fa-child" /> Dependentes Cadastrados
+				<div class="card clearfix summary">
+					<span class="title">Fatura Fechada</span> <span class="detail">
+						<i class="fa fa-file" /> Fatura em atraso sem contagem de juros diário
 					</span>
-					<p:link outcome="/pages/protected/dependente/pesquisa-dependente">
-						<span class="count TurquoiseBack"> <h:outputText
-								value="#{dependenteMB.totalDepentende}"
+					<p:link outcome="/pages/protected/beneficiario/pesquisa-beneficiario">
+						<span class="count revenue"> <h:outputText
+								value="#{faturaMB.totalFaturasFechadas}"
 								style="margin-left:5px; margin-right:5px;" />
 						</span>
 					</p:link>
 				</div>
 			</div>
-
+			
 			<div class="ui-g-12 ui-md-6 ui-lg-8" id="atrasadas">
 				<p:panel id="pnl-atrasadas" header="Faturas Atrasadas">
 					<f:facet name="header">
@@ -152,6 +152,22 @@
 					</div>
 				</p:panel>
 			</div>
+			
+			<!-- Card count dependentes cadastrados -->
+<!-- 			<div class="ui-g-12 ui-md-4"> -->
+<!-- 				<div class="card summary"> -->
+<!-- 					<span class="title">Dependentes</span> <span class="detail"> -->
+<!-- 						<i class="fa fa-child" /> Dependentes Cadastrados -->
+<!-- 					</span> -->
+<!-- 					<p:link outcome="/pages/protected/dependente/pesquisa-dependente"> -->
+<!-- 						<span class="count TurquoiseBack"> <h:outputText -->
+<!-- 								value="#{dependenteMB.totalDepentende}" -->
+<!-- 								style="margin-left:5px; margin-right:5px;" /> -->
+<!-- 						</span> -->
+<!-- 					</p:link> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			
 			
 			<!-- Fatura parcelada -->
 			<div class="ui-g-12 ui-md-6 ui-lg-8" jsf:rendered="#{!faturaParceladaMB.faturaParcelada}">

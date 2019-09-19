@@ -6,89 +6,58 @@
                 template="/WEB-INF/template.xhtml">
 
     <ui:define name="title">
-        <i class="fa fa-file-text MarRight10"/>
-        <h:outputText value="Declaração IRPF" />
+        <i class="fa fa-user MarRight10"/>
+        <h:outputText value="Declaração de Imposto de Renda" />
     </ui:define>
-
+    
     <ui:define name="content">
-
+    	
         <div class="ui-g">
             <div class="ui-g-12">
-
+                
                 <h:form id="form">
-                    <p:messages id="msg" autoUpdate="true" closable="true"/>
-                    
-                    <div style="text-align: right;">
-                        <p:commandButton id="print" icon="fa fa-print" value="Imprimir" action="#{geraRelatorioMB.emitirDeclaracaoImpostoDeRendaPDF}" 
-                        ajax="false" title="PDF"/>
-                    </div>
+                    <p:messages id="msg" autoUpdate="true" />
+                    <p:focus for="beneficiario-table:searchValue"/>
 
-                    <p:dataTable id="fatura-table" styleClass="MarTop10"
-                                 value="#{geraRelatorioMB.listaFaturaAnualDoBeneficiario}" var="fatura"
-                                 reflow="true" emptyMessage="Nenhum registro encontrado">
+                    <p:dataTable id="beneficiario-table" styleClass="MarTop10"
+                                 value="#{beneficiarioMB.listaBeneficiarios}" var="beneficiario"
+                                 reflow="true" paginator="true" rows="15"
+                                 paginatorPosition="bottom"
+                                 emptyMessage="Nenhum registro encontrado">
 
                         <f:facet name="header">
-                            <p:outputPanel id="outpanel">
-                                <div class="ui-g">
+                            <p:outputPanel id="outpanel" style="text-align: right;">
+                                <p:inputText id="searchValue"
+                                             placeholder="Nome do Titular"
+                                             value="#{beneficiarioMB.searchValue}" styleClass="input-size" />
 
-                                    <div class="col">
-                                    	<p:selectOneMenu id="beneficiario" 
-                                                         value="#{geraRelatorioMB.idBeneficiario}" filter="true" filterMatchMode="contains"
-                                                         effect="slide" effectSpeed="fast">
-                                            <f:selectItem itemLabel="Associado" noSelectionOption="true" />
-                                            <f:selectItems value="#{beneficiarioMB.listaBeneficiarios}" 
-                                                           var="beneficiario" itemValue="#{beneficiario.id}" itemLabel="#{beneficiario.nome}"/>
-                                        </p:selectOneMenu>    
-                                        <p:spacer width="10" />
-                                        
-                                    	<p:selectOneMenu id="ano"
-                                                         value="#{geraRelatorioMB.searchAno}">
-                                            <f:selectItem itemLabel="Ano" noSelectionOption="true" />             
-                                            <f:selectItem itemLabel="2018" itemValue="2018" />
-                                            <f:selectItem itemLabel="2019" itemValue="2019" />
-                                            <f:selectItem itemLabel="2020" itemValue="2020" />
-                                        </p:selectOneMenu> 
-                                        <p:spacer width="10" />
-                                        
-                                        
-                                    </div>
-
-                                    <div class="col" style="text-align: right;">
-                                        <p:commandButton icon="fa fa-search" ignoreAutoUpdate="false"
-                                                         action="#{geraRelatorioMB.emitirDeclaracao}"
-                                                         update="form" process="fatura-table" />
-                                    </div>
-                                </div>
+                                <p:commandButton icon="fa fa-search" ignoreAutoUpdate="false"
+                                                 action="#{beneficiarioMB.pesquisar}"
+                                                 update="beneficiario-table" process="beneficiario-table" />
                             </p:outputPanel>
                         </f:facet>
                         
-                        <p:column headerText="Mês" width="60">
-                            <h:outputText value="#{fatura.mesDaFatura}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
+                        <p:column headerText="Nome">
+                            <h:outputText value="#{beneficiario.nomeComIniciaisMaiuscula}" />
                         </p:column>
 
-                        <p:column headerText="Valor" width="75">
-                            <h:outputText value="#{fatura.valorPlanoDeSaude}" title="Valor Total do Plano de Saúde">
-                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
-                            </h:outputText>
+                        <p:column headerText="CPF">
+                            <h:outputText value="#{beneficiario.cpf}" />
                         </p:column>
-                        
-						<p:columnGroup type="footer" rendered="#{not empty geraRelatorioMB.listaFaturaAnualDoBeneficiario}">
-			                <p:row>
-			                    <p:column footerText="Total: " style="text-align:left" styleClass="Blue"/>
-			                    <p:column footerText="R$ #{geraRelatorioMB.somaValorPlanoDeSaudeTitular}" style="text-align:left;" styleClass="Blue"/>
-			                </p:row>
-			            </p:columnGroup>
+
+                        <p:column width="30">
+                            <p:button id="detail" onclick="PF('statusDialog').show()" outcome="irpf" icon="fa fa-info-circle" title="Detalhar #{beneficiario.nomeComIniciaisMaiuscula}">                            
+                                <f:param name="id" value="#{beneficiario.id}"/>
+                            </p:button>
+                        </p:column>
 
                     </p:dataTable>
-                    
+
                 </h:form>
             </div>
         </div>
 
-        <ui:include src="/pages/protected/util/loading.xhtml" />
-
+		<ui:include src="/pages/protected/util/loading.xhtml" />
     </ui:define>
 
 </ui:composition>

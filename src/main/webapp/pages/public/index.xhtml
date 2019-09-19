@@ -52,10 +52,9 @@
 			<div class="landing-header-content clearfix">
 				<!--<p:graphicImage name="images/logo_aee.png" library="omega-layout" style="margin-bottom: 50px" />-->
 
-				<a id="menu-button" href="#"> <span class="fa fa-bars"></span>
-				</a>
+<!-- 				<a id="menu-button" href="#"> <span class="fa fa-bars"></span></a> -->
 				<ul id="menu">
-					<!--                         <li><a href="#">Home</a></li> -->
+<!--                     <li><a href="#introduction" onclick="PF('dlg-irpf').show()">Declaração IRPF</a></li> -->
 					<li><a href="#introduction"
 						onclick="PF('dlg-beneficiario').show()">Consulte Sua Fatura</a></li>
 					<li><a href="#pricing">Convênios e Serviços</a></li>
@@ -191,6 +190,36 @@
 
 
 							<p:commandButton value="Consultar" icon="fa fa-search"
+								action="#{beneficiarioMB.autorizarBeneficiario}">
+							</p:commandButton>
+
+						</p:panelGrid>
+
+					</h:panelGroup>
+				</div>
+			</div>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Declaração IRPF 2019" widgetVar="dlg-irpf"
+		modal="true" closable="true" width="300" resizable="false"
+		draggable="false" responsive="true" showEffect="clip"
+		hideEffect="clip">
+		<h:form id="frm-beneficiario-ir">
+			<div class="ui-g ui-fluid">
+				<div class="ui-g-12 ui-md-12">
+					<p:messages autoUpdate="true" />
+					<h:panelGroup id="solicitacao" layout="block">
+
+						<p:panelGrid columns="1" layout="grid"
+							styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-10">
+							
+							<p:outputLabel value="CPF" />
+							<p:inputMask id="nome" value="#{beneficiarioMB.beneficiario.cpf}"
+								mask="999.999.999-99" label="CPF" />
+
+
+							<p:commandButton value="Imprimir" icon="fa fa-print"
 								action="#{beneficiarioMB.autorizarBeneficiario}">
 							</p:commandButton>
 

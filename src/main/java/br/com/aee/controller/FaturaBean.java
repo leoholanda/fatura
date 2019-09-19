@@ -81,6 +81,7 @@ public class FaturaBean implements Serializable {
 	private List<Fatura> listaFaturas;
 	private List<Fatura> listaFaturaAtrasada;
 	private List<Fatura> listaFaturaPendente;
+	private List<Fatura> listaFaturaFechada;
 	private List<Fatura> listaFaturaPaga;
 
 	private Date dataPagamento = new Date();
@@ -98,7 +99,8 @@ public class FaturaBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		listaFaturaAtrasada = repository.findByFaturaAtrasada();
-		listaFaturaPendente = repository.findByFaturaPendenteAndFechada();
+		listaFaturaPendente = repository.findByFaturaPendente();
+		listaFaturaFechada = repository.findByFaturaFechada();
 
 		this.enviaCobrancaDeFaturaAtrasada();
 
@@ -246,10 +248,10 @@ public class FaturaBean implements Serializable {
 	}
 
 	/**
-	 * Envia email de cobrança somados 10,15,20 dias após o vencimento
+	 * Envia email de cobrança
 	 */
 	public void enviaCobrancaDeFaturaAtrasada() {
-		if (diaDoMes() == 7 || diaDoMes() == 14 || diaDoMes() == 21 || diaDoMes() == 29) {
+		if (diaDoMes() == 7 || diaDoMes() == 14 || diaDoMes() == 21 || diaDoMes() == 28) {
 			if (isCobrancaParaEsseDia()) {
 				EnviaCobrancaThread cobranca = new EnviaCobrancaThread(repository.findByFaturaAtrasada());
 				cobranca.start();
@@ -1222,6 +1224,15 @@ public class FaturaBean implements Serializable {
 	public Long getTotalFaturasPendentes() {
 		return repository.countFaturaPendente();
 	}
+	
+	/**
+	 * Conta quantidade faturas fechadas
+	 *
+	 * @return
+	 */
+	public Long getTotalFaturasFechadas() {
+		return repository.countFaturaFechada();
+	}
 
 	/**
 	 * Total de faturas atrasadas
@@ -1355,6 +1366,14 @@ public class FaturaBean implements Serializable {
 
 	public void setDataPagamento(Date dataPagamento) {
 		this.dataPagamento = dataPagamento;
+	}
+	
+	public List<Fatura> getListaFaturaFechada() {
+		return listaFaturaFechada;
+	}
+	
+	public void setListaFaturaFechada(List<Fatura> listaFaturaFechada) {
+		this.listaFaturaFechada = listaFaturaFechada;
 	}
 
 	public String getRequisicaoParaListarFaturasAtrasadas() {

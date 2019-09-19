@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{beneficiarioMB.beneficiario.id}" />
+
+		<f:viewAction action="#{beneficiarioMB.buscar}"
+			if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="title">
+		<h:outputText value="Declaração de Imposto de Renda" />
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="ui-g dashboard">
+			<div class="ui-g-12">
+				<h:form id="form">
+					<ui:include src="../util/messages.xhtml" />
+					
+					<div class="ui-g-12 ui-sm-12 ui-lg-12">
+						<div class="MarBot10">
+							<p:commandButton onclick="javascript:window.history.go(-1)"
+								value="Voltar" icon="fa fa-mail-reply" title="Retornar"
+								styleClass="black-button" />
+						</div>
+					
+						<!-- Dependente -->
+						<div class="card">
+							<p:panel styleClass="MarBot20">
+								<p>
+									<h:outputText styleClass="BoldGray"
+											value="#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}"
+											style="font-size: 20px;" />
+									
+									<p:commandButton
+									action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF}"
+									icon="fa fa-print" styleClass="Fright green-button" style="width: auto;"
+									title="Declaração IR Exercício 2019" ajax="false" />
+								</p>
+							</p:panel>
+
+							<ui:repeat value="#{beneficiarioMB.beneficiario.dependentes}"
+								var="dependente">
+
+								<p:panel styleClass="MarBot20">
+									<p>
+									<h:outputText styleClass="BoldGray"
+										value="#{dependente.nomeComIniciaisMaiuscula}"
+										style="font-size: 20px;" />
+									<p:commandButton
+										action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaDependentePDF(dependente.nome, dependente.cpf)}"
+										icon="fa fa-print" styleClass="Fright green-button" style="width: auto;"
+										title="Declaração IR Exercício 2019" ajax="false" />	
+									</p>
+								</p:panel>
+
+							</ui:repeat>
+						</div>
+					</div>
+
+				</h:form>
+			</div>
+		</div>
+
+		<ui:include src="/pages/protected/util/loading.xhtml" />
+	</ui:define>
+
+</ui:composition>

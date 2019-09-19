@@ -76,38 +76,24 @@
 
 
 					<div jsf:rendered="#{!fatura.parcelada}">
-						<!-- Titular-->
-						<ul class="task-list"
-							jsf:rendered="#{not empty fatura.plano.beneficiario.dependentes}">
-							<li><span class="task-name">#{fatura.plano.beneficiario.nomeComIniciaisMaiuscula}</span>
-								
-								<p:commandButton
-									value="#{fatura.plano.beneficiario.converterValor}"
-									styleClass="FaturaDescricao"
-									style="width: 100px;"
-									update="@this" process="@this" />
-								<br /><span class="task-name Gray">Titular</span>
-							</li>
-						</ul>
-
-						<!-- Detalha o(s) dependente(s)-->
-						<ui:repeat value="#{fatura.plano.beneficiario.dependentes}"
-							var="dependente">
+					
+						<ui:repeat
+							value="#{fatura.itemDaFatura}"
+							var="item">
 							<ul class="task-list">
-								<li><span class="task-name">#{dependente.nomeComIniciaisMaiuscula}</span>
+								<li><span class="task-name">#{item.identificacao}</span>
 
-									<p:commandButton value="#{dependente.converterValor}"
-										styleClass="FaturaDescricao"
-										style="width: 100px;"
-										update="@this" process="@this" /><br /> 
-									<span class="task-name Gray">#{dependente.tipoDependencia.descricao}</span>
+									<p:commandButton value="#{item.converterValor}" styleClass="FaturaDescricao"
+										style="width: 100px;" title="#{item.nomeComIniciaisMaiuscula}"
+										update="@this" process="@this" />
 								</li>
 							</ul>
 						</ui:repeat>
 						<br />
 
 						<ul class="task-list">
-							<li jsf:rendered="#{fatura.plano.beneficiario.temPlanoDeSaude}"><span
+							<li jsf:rendered="#{fatura.plano.beneficiario.temPlanoDeSaude and 
+							not empty fatura.plano.beneficiario.dependentes}"><span
 								class="task-name">TOTAL PLANO DE SAÚDE</span> <p:commandButton styleClass="FaturaDescricao"
 									value="#{fatura.converterValorPlano}"
 									style="width: 100px;"
@@ -214,6 +200,6 @@
 	</div>
 	
 	<!-- Dialog pagamento  -->
-	<ui:include src="/pages/protected/fatura/dialog-pagamento-fatura.xhtml" />
+<!-- 	<ui:include src="/pages/protected/fatura/dialog-pagamento-fatura.xhtml" /> -->
 
 </ui:composition>

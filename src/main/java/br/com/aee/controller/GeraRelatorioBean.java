@@ -18,9 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
+import br.com.aee.model.Beneficiario;
 import br.com.aee.model.Dependente;
 import br.com.aee.model.Fatura;
 import br.com.aee.report.ExecutorRelatorio;
+import br.com.aee.repository.BeneficiarioRepository;
 import br.com.aee.repository.DependenteRepository;
 import br.com.aee.repository.FaturaRepository;
 import br.com.aee.util.JsfUtil;
@@ -45,15 +47,20 @@ public class GeraRelatorioBean implements Serializable {
 
 	@Inject
 	private DependenteRepository dependenteRepository;
+	
+	@Inject 
+	private BeneficiarioRepository beneficiarioRepository;
 
 	private Long idBeneficiario;
 
 	private Integer searchAno;
 
 	private Double valor;
+	
+	private Beneficiario beneficiario;
 
 	private List<Dependente> listaDeDependenteDoBeneficiario;
-	
+
 	private Double valorDaFaixaEtaria;
 
 	/**
@@ -93,12 +100,16 @@ public class GeraRelatorioBean implements Serializable {
 	 */
 	public void emitirDeclaracaoImpostoDeRendaPDF() {
 		if (idBeneficiario != null) {
+			//Localiza o beneficiario
+			Beneficiario beneficiario = new Beneficiario();
+			beneficiario = beneficiarioRepository.findBy(idBeneficiario);
+			
 			Map<String, Object> parametros = new HashMap<>();
 			parametros.put("p_beneficiario_id", this.idBeneficiario);
 			parametros.put("p_ano", this.searchAno);
 
-			ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao_irpf_3.jasper", this.response,
-					parametros, "Declaração Imposto de Renda.pdf");
+			ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao-irpf-titular.jasper", this.response,
+					parametros, "Declaração Imposto de Renda - " + beneficiario.getNomeComIniciaisMaiuscula() + ".pdf");
 
 			Session session = manager.unwrap(Session.class);
 			session.doWork(executor);
@@ -108,6 +119,10 @@ public class GeraRelatorioBean implements Serializable {
 			} else {
 				JsfUtil.error("A execução do relatório não retornou dados");
 			}
+			
+			// Emite para dependente
+//			System.out.println(">>> Chamando dependente");
+//			this.emitirDeclaracaoImpostoDeRendaDependente();
 		} else {
 			JsfUtil.error("A execução do relatório não retornou dados");
 		}
@@ -116,94 +131,52 @@ public class GeraRelatorioBean implements Serializable {
 	/**
 	 * Exporta para pdf
 	 */
-	public void emitirDeclaracaoImpostoDeRendaComValorInformadoPDF() {
-		if (idBeneficiario != null) {
-			Map<String, Object> parametros = new HashMap<>();
-			parametros.put("p_beneficiario_id", this.idBeneficiario);
-			parametros.put("p_valor", this.valor);
-
-			ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao_irpf_valor_editado.jasper",
-					this.response, parametros, "Declaração Imposto de Renda.pdf");
-
-			Session session = manager.unwrap(Session.class);
-			session.doWork(executor);
-
-			if (executor.isRelatorioGerado()) {
-				facesContext.responseComplete();
-			} else {
-				JsfUtil.error("A execução do relatório não retornou dados");
-			}
-		} else {
-			JsfUtil.error("A execução do relatório não retornou dados");
-		}
-	}
-
-	/**
-	 * Exibe valor total para o titula
-	 * 
-	 * @return
-	 */
-	public String getSomaValorPlanoDeSaudeTitular() {
-		double total = 0.00;
-		for (Fatura fatura : this.getListaFaturaAnualDoBeneficiario()) {
-			total += fatura.getValorPlanoDeSaude();
-		}
-		return new DecimalFormat("#,##0.00").format(total);
-	}
-
-	public String getSomaValorPlanoDeSaudeDependente(Dependente dependente) {
-		double total = 0.00;
-		this.houveMudancaDeFaixaEtaria(dependente);
-
-		if (dependente.getBeneficiario().isApartamento()) {
-			total = (dependente.getFaixaEtaria().getValorApartamento() * this.getListaFaturaAnualDoBeneficiario().size());
-		} else {
-			total = (dependente.getFaixaEtaria().getValorEnfermaria() * this.getListaFaturaAnualDoBeneficiario().size());
-		}
-		return new DecimalFormat("#,##0.00").format(total);
-	}
-
-	/**
-	 * Detecta se houve mudança de faixa etaria para o ano
-	 * 
-	 * @param dependente
-	 */
-	public void houveMudancaDeFaixaEtaria(Dependente dependente) {
-		int idade = dependente.getIdade();
-		int faixaEtariaInicial = dependente.getFaixaEtaria().getPeriodoInicial();
-		
-		@SuppressWarnings("deprecation")
-		int mesDeAniversario = dependente.getDataNascimento().getMonth();
-
-		if ((idade - 1) >= faixaEtariaInicial) {
-			System.out.println("A idade da " + dependente.getNomeComIniciaisMaiuscula() + " era: " + (idade - 1));
-			System.out.println("Faixa atual: " + dependente.getFaixaEtaria().getPeriodo());
-			setValorDaFaixaEtaria(dependente.getFaixaEtaria().getValorEnfermaria());
-		} else {
-			System.out.println("Houve mudança de faixa este ano " + mesDeAniversario);
-			System.out.println("A idade da " + dependente.getNomeComIniciaisMaiuscula() + " era: " + (idade - 1));
-			System.out.println("Faixa atual: " + dependente.getFaixaEtaria().getPeriodo());
-			
-			/**
-			 * Detecta os meses que os valores da mensalidade devem ser diferentes
-			 */
-			for (Fatura fatura : this.getListaFaturaAnualDoBeneficiario()) {
-				GregorianCalendar dataCal = new GregorianCalendar();
-				dataCal.setTime(fatura.getVencimento());
-				int mesDaFatura = dataCal.get(Calendar.MONTH);
+	public void emitirDeclaracaoImpostoDeRendaDependente() {
+		System.out.println(">>> Invocando método");
+		listaDeDependenteDoBeneficiario = dependenteRepository.findByIdBeneficiario(idBeneficiario);
+		if (!listaDeDependenteDoBeneficiario.isEmpty()) {
+			System.out.println(">>> Entrou");
+			for (Dependente dependente : listaDeDependenteDoBeneficiario) {
+				Map<String, Object> parametros = new HashMap<>();
+				parametros.put("p_beneficiario_id", this.idBeneficiario);
+				parametros.put("p_ano", this.searchAno);
+				parametros.put("p_dependente", dependente.getNome());
 				
-				if(mesDaFatura <= mesDeAniversario) {
-					setValorDaFaixaEtaria(0.00);
-					System.out.println("Mes da fatura: " + mesDaFatura + " | " + fatura.getMesDaFatura() + " | " + valorDaFaixaEtaria);
+				System.out.println(">>> beneficiario: " + this.idBeneficiario);
+				System.out.println(">>> ano: " + this.searchAno);
+				System.out.println(">>> Dependente: " + dependente.getNome());
+
+				ExecutorRelatorio executor2 = new ExecutorRelatorio("/relatorios/declaracao-irpf-dependente.jasper",
+						this.response, parametros, "Declaração Imposto de Renda - " + dependente.getNomeComIniciaisMaiuscula() + ".pdf");
+
+				Session session = manager.unwrap(Session.class);
+				session.doWork(executor2);
+				
+				System.out.println(">>> Gerando Declaração");
+
+				if (executor2.isRelatorioGerado()) {
+					facesContext.responseComplete();
 				} else {
-					setValorDaFaixaEtaria(dependente.getFaixaEtaria().getValorEnfermaria());
-					System.out.println("Mes da fatura: " + mesDaFatura + " | " + fatura.getMesDaFatura() + " | " + valorDaFaixaEtaria);
+					JsfUtil.error("A execução do relatório não retornou dados");
 				}
-				
 			}
-			
 		}
-		
+	}
+
+	/**
+	 * Busca id do beneficiario
+	 */
+	public void buscar() {
+		System.out.println(">>> " + idBeneficiario);
+		beneficiario = beneficiarioRepository.findBy(idBeneficiario);
+	}
+	
+	public Beneficiario getBeneficiario() {
+		return beneficiario;
+	}
+	
+	public void setBeneficiario(Beneficiario beneficiario) {
+		this.beneficiario = beneficiario;
 	}
 
 	public Long getIdBeneficiario() {
@@ -237,11 +210,11 @@ public class GeraRelatorioBean implements Serializable {
 	public List<Dependente> getDadosDoDependente(Dependente dependente) {
 		return dependenteRepository.findById(dependente.getId());
 	}
-	
+
 	public Double getValorDaFaixaEtaria() {
 		return valorDaFaixaEtaria;
 	}
-	
+
 	public void setValorDaFaixaEtaria(Double valorDaFaixaEtaria) {
 		this.valorDaFaixaEtaria = valorDaFaixaEtaria;
 	}
