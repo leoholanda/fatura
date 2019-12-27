@@ -15,30 +15,30 @@
 	</f:facet>
 	<title>AEE</title>
 	<script type="text/javascript">
-        $(function() {
-        	$('.title').hide().delay('1500').fadeIn(2000);
-        	$('.subtitle').hide().delay('1500').fadeIn(2000);
-        	$('#frmsearch').hide().delay('1500').fadeIn(2000);
+//         $(function() {
+//         	$('.title').hide().delay('1500').fadeIn(2000);
+//         	$('.subtitle').hide().delay('1500').fadeIn(2000);
+//         	$('#frmsearch').hide().delay('1500').fadeIn(2000);
         	
-            $('#menu-button').on('click', function(e) {
-                $('#menu').toggleClass('overlay-menu');
-                e.preventDefault();
-            });
+//             $('#menu-button').on('click', function(e) {
+//                 $('#menu').toggleClass('overlay-menu');
+//                 e.preventDefault();
+//             });
 
-            $('.mostra').hide();
+//             $('.mostra').hide();
 
-            $('.eventos')
-            .css("height", "600px");
+//             $('.eventos')
+//             .css("height", "600px");
 
-            $(window).scroll(function(){
-                var topo = $(window).scrollTop();
-                if(topo > 30){
-                  $('.pricing-title').delay('100').fadeIn('slow');
-                }else {
-				  $('.pricing-title').hide();	
-                }
-              });
-        });
+//             $(window).scroll(function(){
+//                 var topo = $(window).scrollTop();
+//                 if(topo > 30){
+//                   $('.pricing-title').delay('100').fadeIn('slow');
+//                 }else {
+// 				  $('.pricing-title').hide();	
+//                 }
+//               });
+//         });
         </script>
 
 	<h:outputScript name="analytics.js" library="js" />
@@ -50,9 +50,9 @@
 	<div class="landing-wrapper">
 		<div class="landing-header">
 			<div class="landing-header-content clearfix">
-				<!--<p:graphicImage name="images/logo_aee.png" library="omega-layout" style="margin-bottom: 50px" />-->
+<!-- 				<p:graphicImage name="images/logo_aee.png" library="omega-layout" style="margin-bottom: 50px" /> -->
 
-<!-- 				<a id="menu-button" href="#"> <span class="fa fa-bars"></span></a> -->
+				<a id="menu-button" href="#"> <span class="fa fa-bars"></span></a>
 				<ul id="menu">
 <!--                     <li><a href="#introduction" onclick="PF('dlg-irpf').show()">Declaração IRPF</a></li> -->
 					<li><a href="#introduction"
@@ -67,12 +67,12 @@
 
 		<div id="introduction">
 			<div class="introduction-content">
-				<span class="title">AEE Roraima</span>
-				<span class="subtitle">Associação dos Empregados da Embrapa Roraima</span>
+				<span class="title" style="color: white">AEE Roraima</span>
+				<span class="subtitle" style="color: white">Associação dos Empregados da Embrapa Roraima</span>
 
 
 				<h:form id="frmsearch">
-					<p:commandButton value="CONSULTAR FATURA" style="color: gray"
+					<p:commandButton value="CONSULTAR FATURA"
 						oncomplete="PF('dlg-beneficiario').show()" styleClass="gray-button" />
 				</h:form>
 			</div>
@@ -134,38 +134,41 @@
 
 							<span>Endereço:
 								BR 174 Km 08 s/n Distrito Industrial<br /> Boa Vista - RR CEP:
-								69301-970<br /> Telefone: (95) 4009-7100 (PABX)<br />
+								69301-970<br /> <br />Telefones: (95) 4009-7100 / 4009-7151 / 3626-7125 (PABX) <br />
 							</span>
 						</div>
 						<div class="ui-g-6">
 							<p>
-								Presidente: <strong>Liliane Barbosa dos Santos Gadelha</strong>
+								Presidente: <strong>Rinaldo Joaquim da Silva Júnior</strong>
 							</p>
 							<p>
-								Vice-Presidente: <strong>Carlos Eduardo D'Alencar
-									Mendonça</strong>
+								Vice-Presidente: <strong>Eliane do Nascimento Cunha Farias</strong>
 							</p>
 							<p>
-								Tesoureira: <strong>Francisca Luciana da Silva Lucena dos Santos</strong>
+								Secretária: <strong>Aliny Maria Ribeiro de Melo</strong>
 							</p>
 							<p>
-								Secretário: <strong>Giovanni Ribeiro de Sousa</strong>
+								Diretora Administrativa: <strong>Havanir Vitória de Souza Pinto</strong>
 							</p>
 							<p>
-								Diretora Administrativa: <strong>Francisca Tânia da Silva Menezes</strong>
+								Diretora Sociocultural: <strong>Clarice Monteiro Rocha</strong>
 							</p>
 							<p>
-								Diretora Sociocultural: <strong>Aliny Maria Ribeiro de
-									Melo</strong>
+								Diretora Esportiva: <strong>Giovanni Ribeiro de Souza</strong>
 							</p>
 							<p>
-								Diretora Esportiva: <strong>Maristela Ramalho Xaud</strong>
+								<strong>Conselho Fiscal</strong>
 							</p>
+								Membro Titular: Arlindo Melo Filho<br />
+								Membro Titular: Alcides Galvão dos Santos<br />
+								Membro Titular: Lourenço de Souza Cruz<br />
+								Suplentes: Luiz Edwilson Frazão e Ozélio Izidorio Messias<br />
 						</div>
 					</div>
 				</div>
-				E-mail:
-				diretoria@aeeroraima.com.br
+				E-mail:<br />
+				diretoria@aeeroraima.com.br<br />
+				aeembraparoraima@gmail.com
 				<div class="footer-bottom">Todos os direitos reservados</div>
 			</div>
 		</div>

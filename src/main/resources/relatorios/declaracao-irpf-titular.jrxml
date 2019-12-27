@@ -7,8 +7,6 @@
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="p_ano" class="java.lang.Integer"/>
-	<parameter name="p_dependente" class="java.lang.String"/>
-	<parameter name="p_cpf" class="java.lang.String"/>
 	<parameter name="p_assinatura" class="java.awt.Image"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT fatura.vencimento,
@@ -26,7 +24,7 @@ FROM item_fatura
 	 plano.beneficiario = beneficiario.id
 WHERE beneficiario.id = $P{p_beneficiario_id}
 AND EXTRACT(YEAR FROM fatura.vencimento) = $P{p_ano}
-AND item_fatura.identificacao = $P{p_dependente}
+AND item_fatura.identificacao = 'UNIMED FAMA'
 ORDER BY vencimento]]>
 	</queryString>
 	<field name="vencimento" class="java.sql.Date">
@@ -69,12 +67,12 @@ ORDER BY vencimento]]>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Associação dos Empregados da Embrapa. Endereço: BR 174 Km 08 s/n Distrito Industrial, Boa Vista - RR CEP: 69301-970 Telefone: (95) 4009-7100 (PABX). Email: diretoria@aeeroraima.com.br ]]></text>
+				<text><![CDATA[Associação dos Empregados da Embrapa. Endereço: BR 174 Km 08 s/n Distrito Industrial, Boa Vista - RR CEP: 69301-970 Telefone: (95) 4009-7100 (PABX). Email: diretoria@aeeroraima.com.br]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="97" splitType="Stretch">
+		<band height="99" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="37" width="80" height="30" printWhenGroupChanges="identificacao" uuid="91013470-a9ea-405c-8822-5450dbc6d769"/>
 				<textElement verticalAlignment="Middle">
@@ -97,18 +95,18 @@ ORDER BY vencimento]]>
 				<text><![CDATA[CPF:]]></text>
 			</staticText>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="80" y="37" width="474" height="30" uuid="db61e389-ab8a-4f49-9876-1cc16a9e990c"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{identificacao}]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement x="80" y="67" width="474" height="30" uuid="65cc120c-8b97-44b7-918e-01505e24fd1a"/>
+				<reportElement x="81" y="67" width="298" height="30" uuid="bf165d63-0472-42a2-ad5b-fe3b07287854"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{p_cpf}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="80" y="37" width="474" height="30" printWhenGroupChanges="identificacao" uuid="a526c3bf-d9ae-400d-8f13-1af4894890ff"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -138,19 +136,18 @@ ORDER BY vencimento]]>
 	</columnHeader>
 	<detail>
 		<band height="25" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField textAdjust="StretchHeight" pattern="MMMM">
-				<reportElement x="4" y="3" width="120" height="20" uuid="ea961e6f-ba35-4267-9c04-2a69484eb042"/>
-				<textElement>
+				<reportElement x="4" y="7" width="120" height="15" uuid="ea961e6f-ba35-4267-9c04-2a69484eb042"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vencimento}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight" pattern="#,##0.###">
-				<reportElement x="423" y="3" width="130" height="20" uuid="5cd6b7fe-dc85-4be0-bbc5-912cae0cd2c2">
+				<reportElement x="423" y="5" width="130" height="15" uuid="5cd6b7fe-dc85-4be0-bbc5-912cae0cd2c2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="58b8a55d-92c2-4a66-9f44-9570082d3c3f"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Top">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
@@ -176,8 +173,7 @@ ORDER BY vencimento]]>
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="152" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		<band height="153" splitType="Stretch">
 			<textField textAdjust="StretchHeight" pattern="d &apos;de&apos; MMMM &apos;de&apos; yyyy">
 				<reportElement x="0" y="0" width="280" height="30" uuid="736ae319-62e6-4ee4-b138-0a84f53c7d7a"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -190,14 +186,14 @@ ORDER BY vencimento]]>
 				<text><![CDATA[As informações constantes do presente comprovante são de responsabilidade da Associação dos Empregados da Embrapa, devendo o beneficiário titular utilizá-las para fins de imposto de renda, junto à Receita Federal do Brasil.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="338" y="120" width="216" height="30" uuid="e7377731-6a47-4d6d-8501-2cb2e666f75b"/>
+				<reportElement x="338" y="122" width="216" height="30" uuid="e7377731-6a47-4d6d-8501-2cb2e666f75b"/>
 				<textElement textAlignment="Center">
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[Rinaldo Joaquim da Silva Junior Presidente]]></text>
 			</staticText>
 			<image>
-				<reportElement x="338" y="72" width="217" height="50" uuid="e5bdf68d-4dea-4dc6-b95b-eda97bb157af">
+				<reportElement x="338" y="74" width="217" height="50" uuid="20f49913-c74e-43cd-af1e-070e93b2d514">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>

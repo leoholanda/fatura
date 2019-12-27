@@ -372,10 +372,19 @@
 
 					<p:toolbar styleClass="MarTop10">
 						<p:toolbarGroup align="right">
-							<p:commandButton onclick="javascript:history.back(-1);"
-								oncomplete="javascript:self.location.reload(-1);" value="Voltar"
-								icon="fa fa-mail-reply" title="Retornar"
-								styleClass="black-button" style="width: 100px;" />
+							<p:commandButton value="Cancelar"
+								action="pesquisa-beneficiario?faces-redirect=true"
+								icon="fa fa-remove" title="Cancelar"
+								styleClass="red-button" style="width: 100px;"
+								rendered="#{!beneficiarioMB.beneficiarioExiste}"
+								process="@this" />
+								
+							<p:commandButton value="Cancelar"
+								action="#{beneficiarioMB.cancelar}"
+								icon="fa fa-remove" title="Cancelar"
+								styleClass="red-button" style="width: 100px;"
+								rendered="#{beneficiarioMB.beneficiarioExiste}"
+								process="@this" />	
 
 							<p:commandButton value="Salvar" action="#{beneficiarioMB.save}"
 								update="@form" icon="fa fa-save" styleClass="green-button MarLeft10"

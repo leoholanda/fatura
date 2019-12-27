@@ -27,8 +27,8 @@
 							
 							<p:commandButton
 								action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF}"
-								icon="fa fa-print" styleClass="Fright" style="width: auto;"
-								title="Declaração IR 2019(Desabilitado)" ajax="false" disabled="true"/>
+								icon="fa fa-print" styleClass="Fright green-button" style="width: auto;"
+								title="Declaração IR 2019" ajax="false"/>
 						</h1>
 
 						<p:panel>
@@ -179,6 +179,11 @@
 
 								<h:outputText value="#{dependente.tipoDependencia.descricao}"
 									style="font-size: 15px; margin-left: 24px;" styleClass="Gray" />
+									
+								<p:commandButton
+									action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaDependentePDF(dependente.nome, dependente.cpf)}"
+									icon="fa fa-print" styleClass="Fright green-button" style="width: auto;"
+									title="Declaração IR Exercício 2019" ajax="false" />
 
 								<p:panelGrid columns="2" layout="grid" id="dependente"
 									styleClass="ui-panelgrid-blank MarTop20"

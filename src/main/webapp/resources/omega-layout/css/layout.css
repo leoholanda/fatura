@@ -3008,7 +3008,8 @@ h2 {
 
 .landing-wrapper .landing-header {
 	height: 80px;
-	background-color: #0388e5;
+	background-color: #4682B4;
+/* 	background-color: #0388e5; */
 	position: fixed;
 	left: 0;
 	width: 100%;
@@ -3057,8 +3058,10 @@ h2 {
 	height: 623px;
 /* 	background-image: */
 /* 		url("#{resource['omega-layout:images/landing/section1_bg.jpg']}"); */
-		background-image:
-		url("#{resource['images:/bandeira-roraima.jpg']}");
+/* 	background-image: */
+/* 		url("#{resource['images:/imagem_index_1.jpg']}"); */
+	background-color: #0a1d42;
+;
 	background-position: top left;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -3370,7 +3373,8 @@ h2 {
 	}
 	.landing-wrapper .landing-header {
 		height: 80px;
-		background-color: #0388e5;
+		background-color: #4682B4;
+/* 		background-color: #0388e5; */
 	}
 	.landing-wrapper .landing-header .landing-header-content {
 		width: 100%;

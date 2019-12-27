@@ -58,7 +58,6 @@ public class Beneficiario implements Serializable, BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
-	@NotEmpty
 	@Column(name = "sexo")
 	private String sexo;
 
@@ -80,6 +79,7 @@ public class Beneficiario implements Serializable, BaseEntity {
 	@NotNull
 	private Boolean confirmaServidor = true;
 
+	@NotNull
 	@Column(name = "salario")
 	private Double salario = 0.00;
 

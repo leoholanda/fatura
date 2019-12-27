@@ -1,6 +1,7 @@
 package br.com.aee.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.ImageIcon;
 
 import org.hibernate.Session;
 import org.primefaces.event.SelectEvent;
@@ -256,16 +258,12 @@ public class BeneficiarioBean implements Serializable {
 	 * Adiciona dependente a lista
 	 */
 	public void adicionarDependente() {
-		if (dependenteBean.validaDependente(dependente.getCpf())) {
-			dependente.setAcomodacao(beneficiario.getAcomodacao());
-			beneficiario.getDependentes().add(dependente);
-			dependente.setBeneficiario(beneficiario);
+		dependente.setAcomodacao(beneficiario.getAcomodacao());
+		beneficiario.getDependentes().add(dependente);
+		dependente.setBeneficiario(beneficiario);
 
-			// Adiciona faixa etaria ao dependente
-			dependenteBean.checaFaixaEtariaDependente(dependente);
-		} else {
-			JsfUtil.info("CPF existente");
-		}
+		// Adiciona faixa etaria ao dependente
+		dependenteBean.checaFaixaEtariaDependente(dependente);
 	}
 
 	/**
@@ -385,7 +383,10 @@ public class BeneficiarioBean implements Serializable {
 		Map<String, Object> parametros = new HashMap<>();
 		parametros.put("p_beneficiario_id", beneficiario.getId());
 		parametros.put("p_ano", 2019);
-
+		
+		ImageIcon imagemAssinatura = new ImageIcon(getClass().getResource("br/com/aee/report/assinatura.png"));
+		parametros.put("p_assinatura", imagemAssinatura.getImage());
+		
 		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao-irpf-titular.jasper", this.response,
 				parametros, "Declaração Imposto de Renda - " + beneficiario.getNome() + ".pdf");
 
@@ -406,6 +407,9 @@ public class BeneficiarioBean implements Serializable {
 		parametros.put("p_ano", 2019);
 		parametros.put("p_dependente", nome);
 		parametros.put("p_cpf", cpf);
+		
+		InputStream caminhoImagemBrasao = getClass().getResourceAsStream("/relatorios/images/assinatura.png");
+		parametros.put("CAMINHO_IMAGEM_BRASAO", caminhoImagemBrasao);
 
 		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/dependente.jasper", this.response,
 				parametros, "Declaração Imposto de Renda - " + nome + ".pdf");
@@ -418,6 +422,12 @@ public class BeneficiarioBean implements Serializable {
 		} else {
 			JsfUtil.error("A execução do relatório não retornou dados");
 		}
+	}
+	
+	public void cancelar() throws IOException {
+		String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+		FacesContext.getCurrentInstance().getExternalContext().redirect(context
+				+ "/pages/protected/beneficiario/index-beneficiario.xhtml?id=" + beneficiario.getId());
 	}
 
 	// Listing

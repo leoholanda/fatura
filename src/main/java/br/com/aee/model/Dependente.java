@@ -21,7 +21,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table(name = "dependente")
@@ -36,12 +35,9 @@ public class Dependente implements Serializable {
     @NotEmpty
     private String nome;
 
-    @NotEmpty
-    @CPF
     @Column(name = "cpf")
     private String cpf;
 
-    @NotNull
     @Column(name = "numero_sus")
     private Long sus;
 
@@ -50,7 +46,6 @@ public class Dependente implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
-    @NotEmpty
     @Column(name = "sexo")
     private String sexo;
 
@@ -87,7 +82,7 @@ public class Dependente implements Serializable {
      * @return
      */
     public boolean isMasculino() {
-        return sexo.equalsIgnoreCase("Masculino");
+        return sexo != null ? sexo.equalsIgnoreCase("Masculino") : false;
     }
 
     /**
@@ -96,7 +91,7 @@ public class Dependente implements Serializable {
      * @return
      */
     public boolean isFeminino() {
-        return sexo.equalsIgnoreCase("Feminino");
+        return sexo != null ? sexo.equalsIgnoreCase("Feminino") : false;
     }
     
     public boolean isDesativado() {

@@ -398,17 +398,21 @@ public class Fatura implements Serializable {
 	}
 	
 	public String getDeParaStatus() {
-		switch (status) {
-		case PAGO:
-			return "PAGO";
-		case ATRASADO:
-			return getDiasAtrasados() + "( "+ getFormatacaoTextoDiaDeAtraso() + ")";
-		case FECHADO:
-			return "FECHADO";
-		case PARCELADO:
-			return "PARCELADO";
-		default:
-			return "PENDENTE";
+		if(status != null) {
+			switch (status) {
+			case PAGO:
+				return "PAGO";
+			case ATRASADO:
+				return getDiasAtrasados() + "( "+ getFormatacaoTextoDiaDeAtraso() + ")";
+			case FECHADO:
+				return "FECHADO";
+			case PARCELADO:
+				return "PARCELADO";
+			default:
+				return "PENDENTE";
+				}
+			} else {
+				return "Sem Status";
 		}
 	}
 	
