@@ -5,7 +5,7 @@
 
 	<groupId>com.holanda</groupId>
 	<artifactId>AEE</artifactId>
-	<version>1.14.1</version>
+	<version>1.15.0</version>
 	<packaging>war</packaging>
 
 	<name>AEE</name>
@@ -55,7 +55,8 @@
 		<dependency>
 			<groupId>org.primefaces.omega</groupId>
 			<artifactId>omega-theme</artifactId>
-			<version>1.1.4</version>
+			<version>2.0.0</version>
+<!-- 			<version>1.1.4</version> -->
 			<scope>compile</scope>
 		</dependency>
 

@@ -384,7 +384,7 @@ public class BeneficiarioBean implements Serializable {
 		parametros.put("p_beneficiario_id", beneficiario.getId());
 		parametros.put("p_ano", 2019);
 		
-		ImageIcon imagemAssinatura = new ImageIcon(getClass().getResource("br/com/aee/report/assinatura.png"));
+		ImageIcon imagemAssinatura = new ImageIcon(getClass().getResource("/relatorios/images/assinatura.png"));
 		parametros.put("p_assinatura", imagemAssinatura.getImage());
 		
 		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao-irpf-titular.jasper", this.response,
